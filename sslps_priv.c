@@ -274,8 +274,13 @@ int priv_server(int fd)
 	struct iovec iov = { buf, sizeof(buf)};
 	struct msghdr msg;
 	ssize_t n = -1;
-	int r = -1, fd2 = -1;
+	int r = -1, fd2 = -1, i = 0;
 	long lr = -1;
+
+	for (i = 0; i < sysconf(_SC_OPEN_MAX); ++i) {
+		if (i != fd)
+			close(i);
+	}
 
 	SSL_library_init();
 	SSL_load_error_strings();
