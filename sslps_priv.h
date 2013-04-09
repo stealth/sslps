@@ -1,0 +1,89 @@
+#ifndef __sslps_priv_h__
+#define __sslps_priv_h__
+
+#include <stdint.h>
+
+typedef enum {
+	OPENSSL_ADD_ALL_ALGORITHMS = 0,
+	OPENSSL_ADD_ALL_DIGESTS,
+	SSL_LIBRARY_INIT,
+	SSL_LOAD_ERROR_STRINGS,
+
+	PRIVSEP_DROP_PRIV,
+	PRIVSEP_EXIT,
+
+	SSL_CTX_USE_CERTIFICATE_FILE = 0x1000,
+	SSL_CTX_USE_CERTIFICATE_CHAIN_FILE,
+	SSL_CTX_USE_PRIVATE_KEY_FILE,
+	SSL_CTX_CHECK_PRIVATE_KEY,
+	SSL_SET_FD,
+	SSL_ACCEPT,
+	SSL_CONNECT,
+	SSL_GET_ERROR,
+	SSL_SHUTDOWN,
+	SSL_NEW,
+	SSL_CTX_NEW,
+	SSL_READ,
+	SSL_PEEK,
+	SSL_WRITE,
+	SSL_FREE,
+	SSL_CTX_FREE,
+	SSL_SET_OPTIONS,
+	SSL_GET_OPTIONS,
+	SSL_CLEAR_OPTIONS,
+	SSL_CTX_SET_OPTIONS,
+	SSL_CTX_GET_OPTIONS,
+	SSL_CTX_CLEAR_OPTIONS,
+	SSL_CTX_SET_SESSION_CACHE_MODE,
+	SSL_CTX_GET_SESSION_CACHE_MODE,
+	SSL_CTX_SET_SESSION_ID_CONTEXT,
+	SSL_SET_SESSION_ID_CONTEXT,
+
+	SSL3_METHOD = 0x2000,
+	SSL3_CLIENT_METHOD,
+	SSL3_SERVER_METHOD,
+	SSL23_METHOD,
+	SSL23_CLIENT_METHOD,
+	SSL23_SERVER_METHOD,
+	TLS1_METHOD,
+	TLS1_CLIENT_METHOD,
+	TLS1_SERVER_METHOD,
+	TLS11_METHOD,
+	TLS11_CLIENT_METHOD,
+	TLS11_SERVER_METHOD
+} sslps_action_t;
+
+
+typedef struct {
+	uint32_t id;
+	int fd;
+} sslps_SSL;
+
+
+typedef struct {
+	uint32_t id;
+} sslps_SSL_CTX;
+
+
+typedef struct {
+	int m;
+} sslps_SSL_METHOD;
+
+
+typedef struct {
+	sslps_action_t cmd;
+	sslps_SSL ssl;
+	sslps_SSL_CTX ctx;
+	char path[1024];
+	int i;
+	long l;
+} __attribute__((packed)) cmd_t;
+
+
+int sslps_readn(int, void *, size_t);
+
+int sslps_writen(int, const void *, size_t);
+
+
+#endif
+
