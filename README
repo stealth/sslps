@@ -3,5 +3,5 @@ OpenSSL Privilege Separation, with support for Linux seccomp.
 Integrates well with lophttpd webserver and implements most
 of the functions needed to run SSL client/server software.
 
-See test.c.
+See test.c for example and explanation.
 
